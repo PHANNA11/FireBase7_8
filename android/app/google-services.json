@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "6326122131",
+    "project_id": "ninth-matter-359112",
+    "storage_bucket": "ninth-matter-359112.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6326122131:android:7637a58e690bc6611b3f66",
+        "android_client_info": {
+          "package_name": "com.example.firease7_8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6326122131-0ljp6isd2hq7m8d271m25ri97fe1bfbs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdi0ysh-NF1TppzWlo70rySiWyiYroQ-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6326122131-0ljp6isd2hq7m8d271m25ri97fe1bfbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
