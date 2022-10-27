@@ -30,6 +30,11 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   firebase_auth: ^3.11.2
+  flutter_facebook_auth: ^4.4.1+1
+  google_sign_in: ^5.4.2
+  #flutter_webview_plugin:
+  cloud_firestore: ^3.4.7
+  firebase_core: ^1.21.1
   flutter:
     sdk: flutter
 
@@ -39,6 +44,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  
   flutter_test:
     sdk: flutter
 
