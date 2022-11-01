@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firease7_8/screens/login_screen.dart';
+import 'package:firease7_8/screens/page_create.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -16,12 +17,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> docIDs = [];
   Future getDataFromFireStore() async {
-    var a = await FirebaseFirestore.instance
-        .collection('Coins')
-        .get()
-        .then((value) {
+    await FirebaseFirestore.instance.collection('Coins').get().then((value) {
       value.docs.forEach((element) {
-        docIDs.add(element.reference.id);
+        setState(() {
+          docIDs.add(element.reference.id);
+        });
       });
     });
   }
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else {
                 final data = snapshot.data;
                 return data == null
@@ -113,6 +113,16 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return CreateCoinScreen();
+            },
+          ));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

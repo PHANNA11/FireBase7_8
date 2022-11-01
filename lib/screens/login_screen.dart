@@ -170,9 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final LoginResult loginResult = await FacebookAuth.instance.login(
-        permissions: ['open_yuxasjy_user@tfbnw.net', 'phanna pha'],
-        loginBehavior: LoginBehavior.deviceAuth);
+    final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
