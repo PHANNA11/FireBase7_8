@@ -1,23 +1,38 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class CreateCoinScreen extends StatefulWidget {
-  const CreateCoinScreen({super.key});
-
+class UpdateScreen extends StatefulWidget {
+  UpdateScreen({super.key, required this.coinMap, required this.docId});
+  Map<String, dynamic> coinMap;
+  String docId;
   @override
-  State<CreateCoinScreen> createState() => _CreateCoinScreenState();
+  State<UpdateScreen> createState() => _UpdateScreenState();
 }
 
-class _CreateCoinScreenState extends State<CreateCoinScreen> {
+class _UpdateScreenState extends State<UpdateScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController linkImageController = TextEditingController();
   String urImage = '';
+
+  setDataState() {
+    setState(() {
+      nameController.text = widget.coinMap['name'];
+      priceController.text = widget.coinMap['price'].toString();
+      linkImageController.text = urImage = widget.coinMap['logo'];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setDataState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +111,8 @@ class _CreateCoinScreenState extends State<CreateCoinScreen> {
     };
     await FirebaseFirestore.instance
         .collection('Coins')
-        .add(mapData)
-        .then((value) => dev.log(value.id));
+        .doc(widget.docId.toString())
+        .set(mapData)
+        .then((value) => Navigator.pop(context));
   }
 }

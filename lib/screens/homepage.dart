@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firease7_8/screens/login_screen.dart';
 import 'package:firease7_8/screens/page_create.dart';
+import 'package:firease7_8/screens/update_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -99,14 +100,38 @@ class _HomePageState extends State<HomePage> {
                     ? const Center(
                         child: Text('No data...!!'),
                       )
-                    : Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(data['logo'].toString()),
+                    : InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateScreen(
+                                  coinMap: data.data() as Map<String, dynamic>,
+                                  docId: docIDs[index]),
+                            ),
+                          );
+                        },
+                        onLongPress: () async {
+                          await FirebaseFirestore.instance
+                              .collection('Coins')
+                              .doc(docIDs[index])
+                              .delete()
+                              .then((value) {
+                            setState(() {
+                              fielList = getDataFromFireStore();
+                              dev.log('message delete success');
+                            });
+                          });
+                        },
+                        child: Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(data['logo'].toString()),
+                            ),
+                            title: Text(data['name'].toString()),
+                            trailing: Text('${data['price']}\$'),
                           ),
-                          title: Text(data['name'].toString()),
-                          trailing: Text('${data['price']}\$'),
                         ),
                       );
               }
