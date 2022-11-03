@@ -77,7 +77,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       if (passwordController.text != cpasswordController.text) {
                         print('Password not correct');
                       } else {
-                        final credential = await FirebaseAuth.instance
+                        await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: emailController.text,
                                 password: passwordController.text)

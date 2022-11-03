@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firease7_8/screens/create_data_screen.dart';
 import 'package:firease7_8/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,36 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> docIDs = [];
-  Future getDataFromFireStore() async {
-    var a = await FirebaseFirestore.instance
-        .collection('Coins')
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        docIDs.add(element.reference.id);
-      });
-    });
-  }
-
-  Future getCoin(String docId) async {
-    final coins = FirebaseFirestore.instance.collection('Coins').doc(docId);
-
-    final snapshot = await coins.get();
-
-    if (snapshot.exists) {
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      dev.log(data.toString());
-    }
-  }
-
-  var fielList;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fielList = getDataFromFireStore();
-  }
+  CollectionReference dataCoin = FirebaseFirestore.instance.collection('Coins');
 
   @override
   Widget build(BuildContext context) {
@@ -75,44 +47,70 @@ class _HomePageState extends State<HomePage> {
         ],
       )),
       appBar: AppBar(title: const Text('HomePage')),
-      body: ListView.builder(
-        itemCount: docIDs.length,
-        itemBuilder: (context, index) {
-          CollectionReference dataCoin =
-              FirebaseFirestore.instance.collection('Coins');
-          return FutureBuilder<DocumentSnapshot>(
-            future: dataCoin.doc(docIDs[index]).get(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Icon(
-                    Icons.info,
-                    color: Colors.red,
-                    size: 50,
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else {
-                final data = snapshot.data;
-                return data == null
-                    ? const Center(
-                        child: Text('No data...!!'),
-                      )
-                    : Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(data['logo'].toString()),
+      body: StreamBuilder(
+        stream: dataCoin.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Icon(
+                Icons.info,
+                color: Colors.red,
+                size: 50,
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else {
+            final data = snapshot.data;
+            return data == null
+                ? const Center(
+                    child: Text('No data...!!'),
+                  )
+                : ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var snapData = snapshot.data!.docs[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateCoinScreen(
+                                        docId: snapshot.data!.docs[index].id
+                                            .toString(),
+                                        coinMap: snapData,
+                                      )));
+                        },
+                        child: Card(
+                          elevation: 0,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage:
+                                  NetworkImage(snapData['logo'].toString()),
+                            ),
+                            title: Text(snapData['name'].toString()),
+                            trailing: Text('${snapData['price']} \$'),
                           ),
-                          title: Text(data['name'].toString()),
-                          trailing: Text('${data['price']}\$'),
                         ),
                       );
-              }
-            },
-          );
+                    },
+                  );
+          }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return CreateCoinScreen(
+                coinMap: null,
+                docId: '',
+              );
+            },
+          ));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

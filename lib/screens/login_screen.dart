@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.greenAccent,
                 onPressed: () async {
                   try {
-                    final credential = await FirebaseAuth.instance
+                    await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: emailController.text,
                             password: passwordController.text)
