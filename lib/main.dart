@@ -1,6 +1,7 @@
 import 'package:firease7_8/screens/homepage.dart';
 import 'package:firease7_8/screens/login_screen.dart';
 import 'package:firease7_8/screens/regiter_account.dart';
+import 'package:firease7_8/screens/storage/storage_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -62,7 +63,8 @@ get _getInitFirebase {
         );
       }
       if (snapshot.connectionState == ConnectionState.done) {
-        return const LoginScreen();
+        //return const LoginScreen();
+        return const StorageScreen();
       }
       return const Center(
         child: CircularProgressIndicator(),
