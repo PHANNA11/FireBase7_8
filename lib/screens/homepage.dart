@@ -83,7 +83,6 @@ class _HomePageState extends State<HomePage> {
                             key: const ValueKey(0),
                             endActionPane: ActionPane(
                               motion: const ScrollMotion(),
-                              //  dismissible: DismissiblePane(onDismissed: () {}),
                               children: [
                                 SlidableAction(
                                   onPressed: (context) async {
@@ -92,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                                         .doc(temp.id)
                                         .delete();
                                   },
-                                  backgroundColor: Color(0xFFFE4A49),
+                                  backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
                                   label: 'Delete',
