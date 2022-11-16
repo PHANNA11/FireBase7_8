@@ -33,6 +33,8 @@ dependencies:
   firebase_auth: ^3.11.2
   flutter_facebook_auth: ^4.4.1+1
   google_sign_in: ^5.4.2
+  image_picker: ^0.8.6
+  path_provider: ^2.0.11
   #flutter_webview_plugin:
   cloud_firestore: ^3.4.7
   firebase_core: ^1.21.1
